@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="col-md-12">
+      <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-left" >Task Name</th>
+        <th class="text-left">Description</th>
+        <th class="text-left">Status</th>
+        <!--
+        <th class="text-center">Created Date</th>
+        <th class="text-center">Last Modified Date</th>
+        -->
+        <th class="text-left">Edit/Delete</th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <td>{{ task.name }}</td>
+        <td>{{ task.desc }}</td>
+        <td>{{ task.status }}</td>
+        <td>
+          <button class="btn btn-info"
+                        (click)="showEditTaskForm(task)">
+                       <i class="fa fa-edit"></i>
+              </button>
+          <button class="btn btn-danger"
+                       (click)="removeTask(task)">
+                       <i class="fa fa-minus"></i>
+            </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-success"
+               (click)="showAddTaskForm()"><i class="fa fa-plus"></i></button>
+  <br />
+  <br />
+
+  <form *ngIf="taskForm">
+    <h4>Add New Task</h4>
+
+      <div class="form-group">
+          <label for="taskname" class="control-label col-xs-2">Task Name</label>
+
+          <div class="col-xs-10">
+              <input type="text" name="taskname"  [(ngModel)]="newTask.name" class="form-control" id="taskname" placeholder="Task to track" required #taskname="ngModel">              
+          </div>
+       </div>
+       <p></p>
+
+
+       <div class="form-group">
+          <label for="taskdesc" class="control-label col-xs-2">Description</label>
+          <div class="col-xs-10">
+              <input type="text" name="description"  [(ngModel)]="newTask.desc" class="form-control" id="taskname" placeholder="Add a description">
+          </div>
+       </div>
+       <p></p>
+       <div class="form-group">
+          <label for="taskstatus" class="control-label col-xs-2">Status</label>
+          <div class="col-xs-10">
+              <!-- <input type="text" name="status"  [(ngModel)]="newTask.status" class="form-control" id="taskstatus"> -->
+              <select (change)="onSelect($event.target.value)">
+                      <option *ngFor="let item of statusItems" [value]="item.id">{{item.name}}</option>
+              </select>
+          </div>
+       </div>
+       <p></p>
+
+       <div class="form-group">
+          <div class="col-xs-offset-2 col-xs-10">
+              <button type="button" class="btn btn-primary" (click)="saveTask(newTask)">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelNewTask()">Cancel</button>
+          </div>
+      </div>
+
+   </form>
+
+    <form *ngIf="editTaskForm">
+    <h4>Edit Task</h4>
+    
+    <div class="form-group">
+        <label for="taskname" class="control-label col-xs-2">Task Name</label>
+        <div class="col-xs-10">
+            <input type="text" name="edittaskname"  [(ngModel)]="editedTask.name" class="form-control" id="edittaskname" placeholder="Edit task name">
+        </div>
+     </div>
+     <p></p>
+
+     <div class="form-group">
+        <label for="edittaskdesc" class="control-label col-xs-2">Description</label>
+        <div class="col-xs-10">
+            <input type="text" name="description"  [(ngModel)]="editedTask.desc" class="form-control" id="edittaskdesc" placeholder="Edit description">
+        </div>
+     </div>
+     <p></p>
+
+      <div class="form-group">
+          <label for="taskstatus" class="control-label col-xs-2">Status</label>
+          <div class="col-xs-10">
+              <select (change)="onSelect($event.target.value)">
+                  <option *ngFor="let item of statusItems" [value]="item.id">{{item.name}}</option>
+              </select>
+          </div>
+       </div>
+       <p></p>
+
+      <div class="form-group">
+          <div class="col-xs-offset-2 col-xs-10">
+              <button type="button" class="btn btn-primary" (click)="updateTask(editedTask)">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelEdits()">Cancel</button>
+          </div>
+      </div>
+      <p></p>
+      
+   </form>
+  </div>
+</div>
